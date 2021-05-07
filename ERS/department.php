@@ -1,4 +1,6 @@
-<?php include "db_conn.php"; ?>
+<?php include "db_conn.php";
+session_start();
+ ?>
 <html lang="en">
 
 <head>

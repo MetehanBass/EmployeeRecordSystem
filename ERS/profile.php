@@ -1,8 +1,11 @@
 <?php
-ob_start();
 include "db_conn.php";
 session_start();
-?>
+
+
+ ?>
+
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
@@ -25,7 +28,7 @@ session_start();
             <h3 class="page-title">
               <span class="page-title-icon bg-gradient-primary text-white mr-2">
                 <i class="mdi mdi-contacts"></i>
-              </span>Create a Project
+              </span> <?php echo $_SESSION['name']; ?>'s Details
             </h3>
           </div>
           <div class="row" style="margin-top:2%;">
@@ -37,55 +40,47 @@ session_start();
                   <form class="forms-sample" role = "form" onsubmit="false"
                      action = "" method = "post">
                     <div class="form-group row">
-                      <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Project Name</label>
+                      <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Admin Name</label>
                       <div class="col-sm-9">
-                        <input type="text" name="ProjName" value="" class="form-control" id="exampleInputUsername2" placeholder="Project Name">
+                        <input type="text" name="Name" value="<?php echo $_SESSION['name'];  ?>" class="form-control" id="exampleInputUsername2" placeholder="">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-sm-3 col-form-label">Department Name</label>
+                      <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Admin Username</label>
                       <div class="col-sm-9">
-                        <select name="DepartmentName" value="" class="form-control">
-                          <option>Select a Department</option>
-                          <?php
-                          $deptlist = $conn->query("SELECT DeptName FROM Department");
-                          while($row=$deptlist->fetch_assoc()):
-                           ?>
-                          <option><?php echo ($row['DeptName']) ?></option>
-
-                        <?php endwhile; ?>
-                        </select>
-
+                        <input type="text" class="form-control" name="Username" value="<?php echo $_SESSION['username']; ?>" id="exampleInputUsername2" placeholder="">
                       </div>
                     </div>
-                    <button type="submit" name="submit" class="btn btn-gradient-primary mr-2">Create Project</button>
+                    <div class="form-group row">
+                      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Admin Password</label>
+                      <div class="col-sm-9">
+                        <input type="password" class="form-control" name="Password" value="" id="exampleInputUsername2" placeholder="Enter New Password">
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-gradient-primary mr-2" name="submit">Update Details</button>
                   </form>
                 </div>
+                <?php if (isset($_GET['error'])) { ?>
+                  <p class="error"><?php echo $_GET['error']; ?></p>
+                <?php } ?>
               </div>
             </div>
+</div>
             <?php
 
-              if (isset($_POST['submit']) && !empty($_POST['ProjName']) && !empty($_POST['DepartmentName'])) {
-                $deptname = $_POST['DepartmentName'];
-                $projname = $_POST['ProjName'];
-                $date = date('Y-m-d H:i:s');
+              if (isset($_POST['submit']) && !empty($_POST['Username']) && !empty($_POST['Name']) && !empty($_POST['Password'])) {
+                $username = $_POST['Username'];
+                $name = $_POST['Name'];
+                $password = $_POST['Password'];
 
-                $deptid = $conn->query("SELECT DepartmentId FROM department WHERE DeptName = '$deptname'");
-                $row = mysqli_fetch_array($deptid);
+                $sql = "UPDATE admin SET AdminName = '$name' , Username ='$username' , Password = '$password'";
 
-                $deptid = $row['DepartmentId'];
 
-                $sql = "INSERT INTO Project (ProjName, DepartmentId, StartingDate) VALUES ('$projname', '$row[DepartmentId]' , '$date')";
-  
                   if ($conn->query($sql) === TRUE) {
-                    $projid = $conn->query("SELECT ProjectId FROM project WHERE ProjName = '$projname'");
-                    $row2 = mysqli_fetch_array($projid);
-                    $pid = $row2['ProjectId'];
-                    echo "Project has been created.!<br />";
+                    echo "Details has been updated.!<br />";
                   } else {
-                    echo "Project could not be created .<br />";
+                    echo "Details could not be updated .<br />";
                   }
-                  header('Location:add_project_employee.php?id='.$deptid.'&pid='.$pid.'');  exit;
 
 
 
@@ -93,11 +88,11 @@ session_start();
 
               ?>
 
-            <footer class="footer">
+            <footer style="margin-top:3%;" class="footer">
               <div class="container-fluid clearfix">
               </div>
             </footer>
-          </div>
+
         </div>
       </div>
       <script src="assets/vendors/js/vendor.bundle.base.js"></script>
@@ -110,5 +105,3 @@ session_start();
 </body>
 
 </html>
-
- <?php ob_flush();  ?>

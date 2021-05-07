@@ -4,8 +4,7 @@ $output = '';
 if(isset($_POST["query"]))
 {
  $search = mysqli_real_escape_string($connect, $_POST["query"]);
- $query = "
-  SELECT * FROM project
+ $query = "SELECT * FROM project
   WHERE ProjName LIKE '%".$search."%'
  ";
 }
@@ -13,7 +12,7 @@ else
 {
 
 $query = "
- SELECT * FROM project ORDER BY ProjectId";
+ SELECT * FROM project ORDER BY status desc";
 }
 $result = mysqli_query($connect, $query);
 if(mysqli_num_rows($result) > 0)
@@ -32,17 +31,22 @@ if(mysqli_num_rows($result) > 0)
   ';
   while($row = mysqli_fetch_array($result))
  {
-   $deptname = $connect->query("SELECT d.*,p.ProjectId from department d inner join project p on p.ProjectId = d.DepartmentId");
-   while($row1 = mysqli_fetch_array($deptname))
-  {
+   $query1 = "SELECT DeptName FROM department WHERE DepartmentId='".$row["DepartmentId"]."'";
+   $result1 = mysqli_query($connect, $query1) or die ( mysqli_error());
+   $rowdept = mysqli_fetch_assoc($result1);
+
+   $query2 = "SELECT EmployeeId FROM employee WHERE ProjectId = '".$row["ProjectId"]."' ";
+   $query_run2 = mysqli_query($connect, $query2);
+   $row2 = mysqli_num_rows($query_run2);
+
 
    $output .= '
    <tr>
    <td>'.$row["ProjName"].'</td>
-   <td>'.$row1['DeptName'].'</td>
-   
+   <td>'.$rowdept['DeptName'].'</td>
+   <td>'.$row2.'</td>
 
-    <td>
+        <td>
 
         <a href="project_update.php?id='.$row["ProjectId"].'">
          <button type="button" class="btn btn-gradient-dark btn-icon-text"> Edit <i class="mdi mdi-account-edit btn-icon-append"></i>
@@ -51,9 +55,10 @@ if(mysqli_num_rows($result) > 0)
                <td>
                <?php
        </td>
+
    </tr>
    ';
-}
+
  }
 echo $output;
 }

@@ -1,4 +1,17 @@
-<!DOCTYPE html>
+<?php
+include "db_conn.php";
+session_start();
+
+
+if(isset($_GET['id'])) {
+  $adminid=$_GET['id'];
+
+    $date = date('Y-m-d H:i:s');
+    $old = mysqli_query($conn,"UPDATE employee SET LeavingDate = '$date' WHERE EmployeeId =$adminid");
+
+}
+
+ ?><!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -12,6 +25,9 @@
   <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="shortcut icon" href="assets/images/favicon.ico" />
+
+  <script language="javascript"> function confirmDel(){
+     var agree=confirm("Are you sure that want to delete this employee?\nThis action is irreversible !"); if (agree) { return true ; } else { return false ;} } </script>
 </head>
 
 <body>
@@ -21,7 +37,7 @@
     <div class="container-fluid page-body-wrapper">
 
       <?php include "sidebar.php" ?>
-      
+
       <div class="main-panel">
         <div class="content-wrapper">
           <div class="page-header">

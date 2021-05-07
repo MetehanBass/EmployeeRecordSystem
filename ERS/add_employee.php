@@ -1,6 +1,7 @@
 <?php
 ob_start();
 include "db_conn.php";
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -258,7 +259,7 @@ include "db_conn.php";
                         } else {
                           echo "Project could not be created .<br />";
                         }
-                        header("location: index.html");  exit;
+                        header("location: add_employee.php");  exit;
               }
 
               ?>

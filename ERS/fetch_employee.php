@@ -7,16 +7,16 @@ if(isset($_POST["query"]))
  $search = mysqli_real_escape_string($connect, $_POST["query"]);
  $query = "
   SELECT * FROM employee
-  WHERE Name LIKE '%".$search."%'
+  WHERE (Name LIKE '%".$search."%'
   OR Gender LIKE '%".$search."%'
-  OR Email LIKE '%".$search."%'
- ";
+  OR Email LIKE '%".$search."%') AND LeavingDate IS NULL";
+
 }
 else
 {
 
-$query = "
- SELECT * FROM employee ORDER BY EmployeeId";
+  $query = "
+   SELECT * FROM employee WHERE LeavingDate IS NULL ORDER BY EmployeeId";
 }
 $result = mysqli_query($connect, $query);
 if(mysqli_num_rows($result) > 0)
@@ -55,7 +55,7 @@ if(mysqli_num_rows($result) > 0)
            </button></a>
             </td>
                <td>
-          <a href="employee.php?id='.$row["EmployeeId"].'">
+          <a href="employee.php?id='.$row["EmployeeId"].'"onclick="return confirmDel();">
           <button type="button" class="btn btn-danger btn-icon-text"> Remove <i class="mdi mdi-delete btn-icon-append"></i>
             </button></a> <?php
        </td>

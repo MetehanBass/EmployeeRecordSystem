@@ -1,5 +1,6 @@
 <?php
 include "db_conn.php";
+session_start();
 
 
 $query = "SELECT EmployeeId FROM employee WHERE LeavingDate IS NULL";
@@ -13,11 +14,6 @@ $row1 = mysqli_num_rows($query_run);
 $result = mysqli_query($conn, 'SELECT SUM(Salary) AS Salary FROM employee');
 $row2 = mysqli_fetch_assoc($result);
 $sum = $row2['Salary'];
-
-
-
-
-
 
 ?>
 
@@ -96,6 +92,9 @@ $sum = $row2['Salary'];
                 <div class="card-body">
                   <div class="clearfix">
                     <h4 class="card-title float-left">Department Chart </h4>
+                    <div class="DeptChart" id="DeptChart">
+
+                    </div>
                   </div>
                 </div>
               </div>
@@ -104,6 +103,9 @@ $sum = $row2['Salary'];
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Gender Chart</h4>
+                  <div class="GenderChart" id="GenderChart">
+
+                  </div>
                 </div>
               </div>
             </div>
@@ -127,3 +129,105 @@ $sum = $row2['Salary'];
 </body>
 
 </html>
+
+
+            <?php
+            $qry=mysqli_query($conn,"SELECT DepartmentId FROM employee WHERE DepartmentId = 1");
+            $noadministration = mysqli_num_rows($qry);
+            $qry1=mysqli_query($conn,"SELECT DepartmentId FROM employee WHERE DepartmentId = 2");
+            $nosales = mysqli_num_rows($qry1);
+            $qry2=mysqli_query($conn,"SELECT DepartmentId FROM employee WHERE DepartmentId = 3");
+            $nosocial = mysqli_num_rows($qry2);
+            $qry3=mysqli_query($conn,"SELECT DepartmentId FROM employee WHERE DepartmentId = 4");
+            $nomobile = mysqli_num_rows($qry3);
+            $qry4=mysqli_query($conn,"SELECT DepartmentId FROM employee WHERE DepartmentId = 5");
+            $noweb = mysqli_num_rows($qry4);
+
+
+                        ?>
+
+<script type = 'text/javascript' src = 'https://www.gstatic.com/charts/loader.js'>
+           </script>
+           <script type = 'text/javascript'>
+              google.charts.load('current', {packages: ['corechart']});
+
+           </script>
+
+
+           <script language = 'JavaScript'>
+             var admin = <?php echo $noadministration ?>;
+             var sales = <?php echo $nosales ?>;
+             var social = <?php echo $nosocial?>;
+             var mobile = <?php echo $nomobile?>;
+             var web = <?php echo $noweb?>;
+
+              function drawChart() {
+                 // Define the chart to be drawn.
+                 var data = new google.visualization.DataTable();
+                 data.addColumn('string', 'Browser');
+                 data.addColumn('number', 'Percentage');
+                 data.addRows([
+                    ['No Of Employee at Social Media D.',social],
+                    ['No Of Employee at Administration', admin],
+                    ['No Of Employee at WEB Department',web],
+                    ['No Of Employee at Sales Department', sales],
+                    ['No Of Employee at Mobile Department', mobile],
+                    ['Others', 0]
+                 ]);
+
+                 // Set chart options
+                 var options = {
+                    'title':'',
+                    'width':800,
+                    'height':300,
+                    pieHole: 0.350,
+                    'backgroundColor':'transparent'
+                 };
+
+                 // Instantiate and draw the chart.
+                 var chart = new google.visualization.PieChart(document.getElementById('DeptChart'));
+                 chart.draw(data, options);
+              }
+               google.charts.setOnLoadCallback(drawChart);
+           </script>
+
+            <?php
+            $qry5=mysqli_query($conn,"SELECT EmployeeId FROM employee WHERE Gender = 'Female'");
+            $nofemale = mysqli_num_rows($qry5);
+            $qry6=mysqli_query($conn,"SELECT EmployeeId FROM employee WHERE Gender = 'Male'");
+            $nomale = mysqli_num_rows($qry6);
+             ?>
+
+                      <script language = 'JavaScript'>
+                        var female = <?php echo $nofemale ?>;
+                        var male = <?php echo $nomale ?>;
+
+                         function drawChart() {
+                            // Define the chart to be drawn.
+                            var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Browser');
+                            data.addColumn('number', 'Percentage');
+                            data.addRows([
+                               ['Number of Male Employees',male],
+                               ['Number of Female Employees', female],
+                               ['No Of Employee at WEB Department',0],
+                               ['No Of Employee at Sales Department', 0],
+                               ['No Of Employee at Mobile Department', 0],
+                               ['Others', 0]
+                            ]);
+
+                            // Set chart options
+                            var options = {
+                               'title':'',
+                               'width':550,
+                               'height':230,
+                               pieHole: 0.350,
+                               'backgroundColor':'transparent'
+                            };
+
+                            // Instantiate and draw the chart.
+                            var chart = new google.visualization.PieChart(document.getElementById('GenderChart'));
+                            chart.draw(data, options);
+                         }
+                          google.charts.setOnLoadCallback(drawChart);
+                      </script>

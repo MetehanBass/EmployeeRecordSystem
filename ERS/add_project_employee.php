@@ -1,6 +1,16 @@
 <?php
 ob_start();
 include "db_conn.php";
+session_start();
+
+$gid=$_GET['id'];
+$pid=$_GET['pid'];
+
+$query1 = "SELECT * FROM employee WHERE DepartmentId='".$gid."' AND ProjectId = 0";
+$result1 = mysqli_query($conn, $query1) or die (mysqli_error());
+$query2 = "SELECT * FROM department WHERE DepartmentId='".$gid."'";
+$result2 = mysqli_query($conn, $query2) or die (mysqli_error());
+$deptrow = mysqli_fetch_array($result2);
 ?>
 
 <html lang="en">
@@ -36,14 +46,22 @@ include "db_conn.php";
                 <div class="card-body">
                   <h4 class="card-title"></h4>
                   <p class="card-description"> </p>
-                  <h4>Employees of Chosen Department</h4>
-                  <form style="margin-top:3%;" class="forms-sample">
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input"> Employee 1 </label>
-                    </div>
+                  <h4>Employees without a project belonging to the selected department </h4> <br>
+                  <h5 class="text-primary">Choose from <?php echo $deptrow['DeptName']; ?> </h5>
+                  <form style="margin-top:3%;" class="forms-sample" role = "form" onsubmit="false"
+                     action = "add_project_employee_check.php" method = "post">
+                     <input type="hidden" name="update_id" id="update_id" value="<?php echo $pid; ?>">
 
-                    <button style="margin-top:3%;" type="submit" class="btn btn-gradient-primary mr-2">+ Add Employees to Project</button>
+                    <?php
+                    while($row=mysqli_fetch_array($result1))
+                    {?>
+
+                    <div class="form-check">
+                    <label class="form-check-label">
+                      <input type="checkbox" name="lang[]" value="<?php echo $row['EmployeeId']; ?>" class="form-check-input"> <?php echo $row['Name'];?> </label>
+                  </div>
+                    <?php }?>
+                    <button style="margin-top:3%;" type="submit" name="submit" class="btn btn-gradient-primary mr-2">+ Add Employees to Project</button>
                   </form>
                 </div>
               </div>
