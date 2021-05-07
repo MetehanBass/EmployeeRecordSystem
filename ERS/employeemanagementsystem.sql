@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 07 May 2021, 02:00:57
+-- Üretim Zamanı: 07 May 2021, 20:05:34
 -- Sunucu sürümü: 10.4.17-MariaDB
 -- PHP Sürümü: 8.0.2
 
@@ -46,7 +46,28 @@ INSERT INTO `address` (`AddressId`, `Country`, `City`, `Street`, `Postcode`, `Ap
 (26, 'Turkey', 'Eskişehir', 'Merkez', '02608', '13'),
 (27, 'Turkey', 'Eskişehir', 'Merkez', '02608', '13'),
 (28, 'Turkey', 'Eskişehir', 'Merkez', '02608', '13'),
-(29, 'Russia', 'St.Petersburg', 'Sportivnaya', '98553', '11');
+(29, 'Russia', 'St.Petersburg', 'Sportivnaya', '98553', '11'),
+(30, 'Turkey', 'Antalya', 'Lara', '07090', '26');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `admin`
+--
+
+CREATE TABLE `admin` (
+  `AdminId` int(11) NOT NULL,
+  `AdminName` varchar(40) NOT NULL,
+  `Username` varchar(40) NOT NULL,
+  `Password` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Tablo döküm verisi `admin`
+--
+
+INSERT INTO `admin` (`AdminId`, `AdminName`, `Username`, `Password`) VALUES
+(1, 'Metehan Baş', 'metagn', 'admin');
 
 -- --------------------------------------------------------
 
@@ -88,6 +109,7 @@ CREATE TABLE `employee` (
   `LeavingDate` date DEFAULT NULL,
   `JobId` int(3) NOT NULL,
   `DepartmentId` int(11) NOT NULL,
+  `ProjectId` int(11) NOT NULL DEFAULT 0,
   `AddressId` int(4) NOT NULL,
   `PhoneId` varchar(13) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -96,10 +118,11 @@ CREATE TABLE `employee` (
 -- Tablo döküm verisi `employee`
 --
 
-INSERT INTO `employee` (`EmployeeId`, `Name`, `Gender`, `Email`, `DOB`, `Salary`, `StartingDate`, `LeavingDate`, `JobId`, `DepartmentId`, `AddressId`, `PhoneId`) VALUES
-(29, 'Metehan Baş', 'Male', 'adodm87@hotmail.com', '1998-03-09', 3000, '2021-05-06', NULL, 5, 1, 24, '25'),
-(33, 'Fatma Wick', 'Female', 'fatmawick@outlook.com', '1988-03-09', 1000, '2021-05-06', NULL, 6, 1, 25, '26'),
-(34, 'Küçük Kurbağa', 'Female', 'kurbikseno@outlook.com', '1999-11-22', 4000, '2021-05-06', '2021-05-06', 4, 1, 29, '30');
+INSERT INTO `employee` (`EmployeeId`, `Name`, `Gender`, `Email`, `DOB`, `Salary`, `StartingDate`, `LeavingDate`, `JobId`, `DepartmentId`, `ProjectId`, `AddressId`, `PhoneId`) VALUES
+(29, 'Metehan Baş', 'Male', 'adodm87@hotmail.com', '1998-03-09', 3000, '2021-05-06', NULL, 5, 1, 0, 24, '25'),
+(33, 'Fatma Wick', 'Female', 'fatmawick@outlook.com', '1988-03-09', 1000, '2021-05-06', NULL, 6, 5, 24, 25, '26'),
+(34, 'Küçük Kurbağa', 'Female', 'kurbikseno@outlook.com', '1999-11-22', 4000, '2021-05-06', '2021-05-07', 4, 3, 0, 29, '30'),
+(35, 'Joseph William Ledet', 'Male', 'Joseph@gmail.com', '1978-03-09', 3450, '2021-05-07', NULL, 1, 5, 24, 30, '31');
 
 -- --------------------------------------------------------
 
@@ -145,10 +168,8 @@ CREATE TABLE `phone` (
 INSERT INTO `phone` (`PhoneId`, `Type`, `PhoneNumber`) VALUES
 (25, 'Cell', '5383485870'),
 (26, 'Business', '5383485869'),
-(27, 'Business', '5383485869'),
-(28, 'Business', '5383485869'),
-(29, 'Business', '5383485869'),
-(30, 'Cell', '5538879935');
+(30, 'Cell', '5538879935'),
+(31, 'Cell', '5375896532');
 
 -- --------------------------------------------------------
 
@@ -170,8 +191,14 @@ CREATE TABLE `project` (
 --
 
 INSERT INTO `project` (`ProjectId`, `ProjName`, `DepartmentId`, `StartingDate`, `FinishDate`, `status`) VALUES
-(17, 'First Attempt', 3, '2021-05-06', NULL, 1),
-(18, 'Search Engine Development', 5, '2021-05-06', NULL, 1);
+(17, 'First Attempt', 2, '2021-05-06', NULL, 1),
+(18, 'Search Engine Development', 5, '2021-05-06', NULL, 1),
+(19, 'Project 1', 2, '2021-05-07', NULL, 1),
+(20, 'Project 2', 5, '2021-05-07', '2021-05-06', 0),
+(21, 'Deneme', 1, '2021-05-07', NULL, 1),
+(22, 'Search Engine Development', 3, '2021-05-07', '2021-05-07', 0),
+(23, 'Search Engine Developmentdwaaddasadsdas', 1, '2021-05-07', '2021-05-07', 0),
+(24, 'First Attemptttttttttt', 5, '2021-05-07', NULL, 1);
 
 --
 -- Dökümü yapılmış tablolar için indeksler
@@ -182,6 +209,12 @@ INSERT INTO `project` (`ProjectId`, `ProjName`, `DepartmentId`, `StartingDate`, 
 --
 ALTER TABLE `address`
   ADD PRIMARY KEY (`AddressId`);
+
+--
+-- Tablo için indeksler `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`AdminId`);
 
 --
 -- Tablo için indeksler `department`
@@ -221,7 +254,13 @@ ALTER TABLE `project`
 -- Tablo için AUTO_INCREMENT değeri `address`
 --
 ALTER TABLE `address`
-  MODIFY `AddressId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `AddressId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `AdminId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `department`
@@ -233,7 +272,7 @@ ALTER TABLE `department`
 -- Tablo için AUTO_INCREMENT değeri `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `EmployeeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `EmployeeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `job`
@@ -245,13 +284,13 @@ ALTER TABLE `job`
 -- Tablo için AUTO_INCREMENT değeri `phone`
 --
 ALTER TABLE `phone`
-  MODIFY `PhoneId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `PhoneId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `project`
 --
 ALTER TABLE `project`
-  MODIFY `ProjectId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `ProjectId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
