@@ -132,15 +132,15 @@ $sum = $row2['Salary'];
 
 
             <?php
-            $qry=mysqli_query($conn,"SELECT DepartmentId FROM employee WHERE DepartmentId = 1");
+            $qry=mysqli_query($conn,"SELECT DepartmentId FROM employee WHERE DepartmentId = 1 AND LeavingDate IS NULL");
             $noadministration = mysqli_num_rows($qry);
-            $qry1=mysqli_query($conn,"SELECT DepartmentId FROM employee WHERE DepartmentId = 2");
+            $qry1=mysqli_query($conn,"SELECT DepartmentId FROM employee WHERE DepartmentId = 2 AND LeavingDate IS NULL");
             $nosales = mysqli_num_rows($qry1);
-            $qry2=mysqli_query($conn,"SELECT DepartmentId FROM employee WHERE DepartmentId = 3");
+            $qry2=mysqli_query($conn,"SELECT DepartmentId FROM employee WHERE DepartmentId = 3 AND LeavingDate IS NULL");
             $nosocial = mysqli_num_rows($qry2);
-            $qry3=mysqli_query($conn,"SELECT DepartmentId FROM employee WHERE DepartmentId = 4");
+            $qry3=mysqli_query($conn,"SELECT DepartmentId FROM employee WHERE DepartmentId = 4 AND LeavingDate IS NULL");
             $nomobile = mysqli_num_rows($qry3);
-            $qry4=mysqli_query($conn,"SELECT DepartmentId FROM employee WHERE DepartmentId = 5");
+            $qry4=mysqli_query($conn,"SELECT DepartmentId FROM employee WHERE DepartmentId = 5 AND LeavingDate IS NULL");
             $noweb = mysqli_num_rows($qry4);
 
 
@@ -192,21 +192,21 @@ $sum = $row2['Salary'];
            </script>
 
             <?php
-            $qry5=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 1");
+            $qry5=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 1 AND LeavingDate IS NULL");
             $nowebdev = mysqli_num_rows($qry5);
-            $qry6=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 2");
+            $qry6=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 2 AND LeavingDate IS NULL");
             $noiosdev = mysqli_num_rows($qry6);
-            $qry7=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 3");
+            $qry7=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 3 AND LeavingDate IS NULL");
             $noandroiddev = mysqli_num_rows($qry7);
-            $qry8=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 4");
+            $qry8=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 4 AND LeavingDate IS NULL");
             $nograpartist = mysqli_num_rows($qry8);
-            $qry9=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 5");
+            $qry9=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 5 AND LeavingDate IS NULL");
             $nomanager = mysqli_num_rows($qry9);
-            $qry10=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 6");
+            $qry10=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 6 AND LeavingDate IS NULL");
             $nocleaner = mysqli_num_rows($qry10);
-            $qry11=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 7");
+            $qry11=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 7 AND LeavingDate IS NULL");
             $noaccountant = mysqli_num_rows($qry11);
-            $qry12=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 8");
+            $qry12=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 8 AND LeavingDate IS NULL");
             $nosecretary = mysqli_num_rows($qry12);
 
              ?>
