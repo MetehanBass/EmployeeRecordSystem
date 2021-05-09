@@ -31,6 +31,7 @@ if(mysqli_num_rows($result) > 0)
       <th> Date of Birth </th>
       <th> Salary </th>
       <th> Date of Start </th>
+      <th> Education </th>
       <th> Edit </th>
       <th> Remove </th>
     </tr>
@@ -39,6 +40,10 @@ if(mysqli_num_rows($result) > 0)
   ';
   while($row = mysqli_fetch_array($result))
  {
+   $query1 = "SELECT EducationStatus FROM education WHERE EducationId='".$row["EducationId"]."'";
+   $result1 = mysqli_query($connect, $query1) or die (mysqli_error());
+   $rowedu = mysqli_fetch_assoc($result1);
+
    $output .= '
    <tr>
    <td>'.$row["Name"].'</td>
@@ -47,6 +52,8 @@ if(mysqli_num_rows($result) > 0)
    <td>'.$row["DOB"].'</td>
    <td>'.$row["Salary"].'</td>
    <td>'.$row["StartingDate"].'</td>
+   <td>'.$rowedu["EducationStatus"].'</td>
+
 
     <td>
 

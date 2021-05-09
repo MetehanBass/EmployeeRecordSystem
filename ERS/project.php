@@ -1,6 +1,7 @@
 <?php
 session_start();
- ?><!DOCTYPE html>
+include "db_conn.php";
+?>
 <html lang="en">
 
 <head>
@@ -47,14 +48,13 @@ session_start();
                           <div class="input-group-prepend">
                             <i class="input-group-text border-0 mdi mdi-magnify"></i>
                           </div>
-                          <input class="form-control" type="text" name="search_text" id="search_text" autocomplete="off" placeholder="Search Employee" />
+                          <input class="form-control" type="text" name="search_text" id="search_text" autocomplete="off" placeholder="Search Project" />
                         </div>
                       </form>
                     </div>
                   </div>
                   <table class="table table-striped">
                     <thead>
-
                     </thead>
                     <tbody>
                       <div id="result"></div>

@@ -102,8 +102,8 @@ $sum = $row2['Salary'];
             <div class="col-md-5 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Gender Chart</h4>
-                  <div class="GenderChart" id="GenderChart">
+                  <h4 class="card-title">Job Chart</h4>
+                  <div class="GenderChart" id="JobChart">
 
                   </div>
                 </div>
@@ -192,15 +192,34 @@ $sum = $row2['Salary'];
            </script>
 
             <?php
-            $qry5=mysqli_query($conn,"SELECT EmployeeId FROM employee WHERE Gender = 'Female'");
-            $nofemale = mysqli_num_rows($qry5);
-            $qry6=mysqli_query($conn,"SELECT EmployeeId FROM employee WHERE Gender = 'Male'");
-            $nomale = mysqli_num_rows($qry6);
+            $qry5=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 1");
+            $nowebdev = mysqli_num_rows($qry5);
+            $qry6=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 2");
+            $noiosdev = mysqli_num_rows($qry6);
+            $qry7=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 3");
+            $noandroiddev = mysqli_num_rows($qry7);
+            $qry8=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 4");
+            $nograpartist = mysqli_num_rows($qry8);
+            $qry9=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 5");
+            $nomanager = mysqli_num_rows($qry9);
+            $qry10=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 6");
+            $nocleaner = mysqli_num_rows($qry10);
+            $qry11=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 7");
+            $noaccountant = mysqli_num_rows($qry11);
+            $qry12=mysqli_query($conn,"SELECT JobId FROM employee WHERE JobId = 8");
+            $nosecretary = mysqli_num_rows($qry12);
+
              ?>
 
                       <script language = 'JavaScript'>
-                        var female = <?php echo $nofemale ?>;
-                        var male = <?php echo $nomale ?>;
+                        var iosdev = <?php echo $noiosdev ?>;
+                        var webdev = <?php echo $nowebdev ?>;
+                        var androiddev = <?php echo $noandroiddev?>;
+                        var grapartist = <?php echo $nograpartist ?>;
+                        var manager = <?php echo $nomanager ?>;
+                        var cleaner = <?php echo $nocleaner ?>;
+                        var accountant = <?php echo $noaccountant ?>;
+                        var secretary = <?php echo $nosecretary ?>;
 
                          function drawChart() {
                             // Define the chart to be drawn.
@@ -208,11 +227,15 @@ $sum = $row2['Salary'];
                             data.addColumn('string', 'Browser');
                             data.addColumn('number', 'Percentage');
                             data.addRows([
-                               ['Number of Male Employees',male],
-                               ['Number of Female Employees', female],
-                               ['No Of Employee at WEB Department',0],
-                               ['No Of Employee at Sales Department', 0],
-                               ['No Of Employee at Mobile Department', 0],
+                               ['Number of Web Developer',webdev],
+                               ['Number of IOS Developer', iosdev],
+                               ['Number of Android Developer',androiddev],
+                               ['Number of Graphic Artist',grapartist],
+                               ['Number of Manager',manager],
+                               ['Number of Cleaner',cleaner],
+                               ['Number of Accountant',accountant],
+                               ['Number of Secretary',secretary],
+
                                ['Others', 0]
                             ]);
 
@@ -226,7 +249,7 @@ $sum = $row2['Salary'];
                             };
 
                             // Instantiate and draw the chart.
-                            var chart = new google.visualization.PieChart(document.getElementById('GenderChart'));
+                            var chart = new google.visualization.PieChart(document.getElementById('JobChart'));
                             chart.draw(data, options);
                          }
                           google.charts.setOnLoadCallback(drawChart);

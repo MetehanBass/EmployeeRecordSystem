@@ -198,6 +198,23 @@ session_start();
                           </div>
                         </div>
                       </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Education</label>
+                          <div class="col-sm-9">
+                            <select name="Education" value="" class="form-control">
+                              <option>Select Education Status</option>
+                              <?php
+                              $edulist = $conn->query("SELECT EducationStatus FROM education");
+                              while($row9=$edulist->fetch_assoc()):
+                               ?>
+                              <option><?php echo ($row9['EducationStatus']) ?></option>
+
+                            <?php endwhile; ?>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <button style="margin-top:3%;" type="submit" name="submit" class="btn btn-gradient-primary mr-2">+ Create Employee</button>
                   </form>
@@ -208,7 +225,7 @@ session_start();
             <?php
 
               if (isset($_POST['submit']) && !empty($_POST['Name']) && !empty($_POST['Phonenum']) && !empty($_POST['Gender']) && !empty($_POST['DOB']) && !empty($_POST['DepartmentName'])
-                                          && !empty($_POST['Salary']) && !empty($_POST['Country']) && !empty($_POST['City']) && !empty($_POST['Street']) && !empty($_POST['Postcode'])
+                                          && !empty($_POST['Salary']) && !empty($_POST['Education']) && !empty($_POST['Country']) && !empty($_POST['City']) && !empty($_POST['Street']) && !empty($_POST['Postcode'])
                                           && !empty($_POST['Email']) && !empty($_POST['ApartmentNo'])) {
                 $name = $_POST['Name'];
                 $phonenum = $_POST['Phonenum'];
@@ -217,6 +234,7 @@ session_start();
                 $email = $_POST['Email'];
                 $DOB=$_POST['DOB'];
                 $job=$_POST['Job'];
+                $education=$_POST['Education'];
                 $deptname =$_POST['DepartmentName'];
                 $salary = $_POST['Salary'];
                 $country = $_POST['Country'];
@@ -246,12 +264,15 @@ session_start();
               $jobid = $conn->query("SELECT JobId FROM job WHERE JobTitle = '$job'");
               $row3 = mysqli_fetch_array($jobid);
 
+              $educationid = $conn->query("SELECT EducationId FROM education WHERE EducationStatus = '$education'");
+              $row5 = mysqli_fetch_array($educationid);
+
               $deptid = $conn->query("SELECT DepartmentId FROM department WHERE DeptName = '$deptname'");
               $row4 = mysqli_fetch_array($deptid);
 
 
-                $sql = $conn->query("INSERT INTO employee (Name, Gender, Email, DOB, Salary, StartingDate, JobId,DepartmentId,AddressId,PhoneId)
-                        VALUES ('$name', '$gender', '$email', '$DOB', '$salary', '$date', '$row3[JobId]', '$row4[DepartmentId]', '$row2[AddressId]', '$row1[PhoneId]')");
+                $sql = $conn->query("INSERT INTO employee (Name, Gender, Email, DOB, Salary, EducationId, StartingDate, JobId,DepartmentId,AddressId,PhoneId)
+                        VALUES ('$name', '$gender', '$email', '$DOB', '$salary', '$row5[EducationId]', '$date', '$row3[JobId]', '$row4[DepartmentId]', '$row2[AddressId]', '$row1[PhoneId]')");
 
 
                         if ($conn->query($sql) === TRUE) {

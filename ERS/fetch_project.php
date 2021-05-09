@@ -9,14 +9,14 @@ if(isset($_POST["query"]))
  ";
 }
 else
-{
+{ 
 
-$query = "
- SELECT * FROM project ORDER BY status desc";
+$query = "SELECT * FROM project ORDER BY status desc";
 }
 $result = mysqli_query($connect, $query);
 if(mysqli_num_rows($result) > 0)
 {
+
   $output .='<table class="table table-striped">
 
   <thead>
